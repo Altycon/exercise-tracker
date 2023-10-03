@@ -1,2 +1,5 @@
 .env
+sample.env
 node_modules
+temp_database.js
+NotesToSelf.txt

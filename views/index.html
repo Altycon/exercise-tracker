@@ -1,46 +1,79 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Exercise Tracker | freeCodeCamp</title>
-    <link rel="shortcut icon" href="https://cdn.freecodecamp.org/universal/favicons/favicon.ico"  type="image/x-icon" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" />
-    <link href="style.css" rel="stylesheet" type="text/css" />
-  </head>
+    <head>
+        <title>Exercise Tracker | freeCodeCamp</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" />
+        <link href="style.css" rel="stylesheet" type="text/css" />
+        <script src="js/index.js" defer></script>
+    </head>
+    <body>
+        <header class="header-primary">
+            <div class="extra-site-info">
+                <p>Microservice API</p>
+                <p>FreeCodeCamp Project</p>
+            </div>
+            <h1 class="site-main-heading">
+                <span>Clayton's</span>
+                <span>Exercise</span>
+                <span>Tracker</span>
+            </h1>
+            <button type="button" class="create-user-form-btn">Sign up</button>
+        </header>
+        <div class="tracker-wrapper">
+            
+            <form id="exercise-form" method="post" class="add-exercise-form">
+                <h3>Add exercises</h3>
+                <p class="line-of-code"><code>POST /api/users/:_id/exercises</code></p>
+                <p>* required</p>
+                <input id="uid" type="text" name=":_id" placeholder="* id" required/>
+                <input id="desc" type="text" name="description" placeholder="* description" required/>
+                <input id="dur" type="text" name="duration" placeholder="* duration (mins.)" required/>
+                <input id="date" type="text" name="date" placeholder="date (yyyy-mm-dd)" />
+                <input type="submit" value="Submit" />
+                <div class="img-container">
+                    <img src="img/yoga-icon-256.png" alt="Yoga Icon">
+                    <img src="img/yoga-icon2-256.png" alt="Yoga Icon">
+                </div>
+                
+            </form>
+            <section class="instructions">
+                <h2>a simple api to<br>RECORD THAT EXERCISE YOU DID</h2>
+                <p><strong>POST user</strong></p>
+                <p class="line-of-code"><code>POST /api/users</code></p>
+                <p><strong>GET users</strong></p>
+                <p class="line-of-code"><code>GET /api/users</code></p>
+                <p><strong>POST exercise</strong></p>
+                <p class="line-of-code"><code>POST /api/users/:_id/exercises</code></p>
+                <p><strong>GET exercise log: </strong></p>
+                <p class="line-of-code"><code>GET /api/users/:_id/logs?[from][&amp;to][&amp;limit]</code></p>
+                <p class="option"><strong>[ ]</strong> = optional</p>
+                <p class="option"><strong>from, to</strong> = dates (yyyy-mm-dd)</p>
+                <p class="option"><strong>limit</strong> = number</p>
+            </section>
+            
+        </div>
 
-  <body>
-    <div class="container">
-      <h1>Exercise tracker</h1>
-      <form action="/api/users" method="post">
-        <h3>Create a New User</h3>
-        <p><code>POST /api/users</code></p>
-        <input id="uname" type="text" name="username" placeholder="username" />
-        <input type="submit" value="Submit" />
-      </form>
-      <form id="exercise-form" method="post">
-        <h3>Add exercises</h3>
-        <p><code>POST /api/users/:_id/exercises</code></p>
-        <input id="uid" type="text" name=":_id" placeholder=":_id" />
-        <input id="desc" type="text" name="description" placeholder="description*" />
-        <input id="dur" type="text" name="duration" placeholder="duration* (mins.)" />
-        <input id="date" type="text" name="date" placeholder="date (yyyy-mm-dd)" />
-        <input type="submit" value="Submit" />
-      </form>
-      <p>
-        <strong>GET user's exercise log: </strong>
-        <code>GET /api/users/:_id/logs?[from][&amp;to][&amp;limit]</code>
-      </p>
-      <p><strong>[ ]</strong> = optional</p>
-      <p><strong>from, to</strong> = dates (yyyy-mm-dd); <strong>limit</strong> = number</p>
-    </div>
-    <script>
-      const exerciseForm = document.getElementById("exercise-form");
-
-      exerciseForm.addEventListener("submit", () => {
-        const userId = document.getElementById("uid").value;
-        exerciseForm.action = `/api/users/${userId}/exercises`;
-
-        exerciseForm.submit();
-      });
-    </script>
-  </body>
+        <div class="create-user-form-window">
+            <div class="overlay"></div>
+            <button type="button" class="close-create-user-form-window-btn js-close-create-user-form-window-btn">X</button>
+            <div class="content">
+                <form action="/api/users" method="post" class="create-user-form">
+                    <h3>Create a New User</h3>
+                    <p class="line-of-code"><code>POST /api/users</code></p>
+                    <input id="uname" type="text" name="username" placeholder="username" required/>
+                    <input type="submit" value="Submit" />
+                    <p>* Remember you generated ID.</p>
+                </form>
+            </div>
+        </div>
+        <footer>
+            <div class="footer-info">
+                <p>&copy; Clayton McDaniel 2023</p>
+            </div>
+            <div class="footer-links">
+                <a href="https://www.freecodecamp.org/altycon" target="_blank">FreeCodeCamp</a>
+                <a href="https://github.com/Altycon" target="_blank">Github</a>
+            </div>
+        </footer>
+    </body>
 </html>
