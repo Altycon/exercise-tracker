@@ -113,9 +113,11 @@ module.exports.addExercise = async function(request,response){
         await user.save();
 
         response.json({
+            username: user.username,
             description: description,
             duration: duration,
-            date: newExerciseDate
+            date: newExerciseDate,
+            _id: _id
         });
 
     }catch(error){
