@@ -228,27 +228,22 @@ code {
 .instructions .option{
     font-size: .8rem;
 }
-.footer-info,
-.footer-links{
+footer > *{
     margin-bottom: .5rem;
 }
 .footer-links > a{
     color: cornflowerblue;
 }
+footer div:nth-child(3) > p:first-child{
+    margin-bottom: .5em;
+}
 @media only screen and (max-width: 850px) {
     .header-primary{
-        /* padding: 1rem;
-        margin-bottom: 2rem;
-        display: grid; */
         grid-template-columns: auto;
         grid-template-rows: auto auto auto;
        
         gap: 1.5rem;
     }
-    /* .extra-site-info{
-        grid-column: 2;
-        grid-row: 2;
-    } */
     .site-main-heading{
         margin-left: 6rem;
     }

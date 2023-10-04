@@ -103,6 +103,8 @@ module.exports.addExercise = async function(request,response){
 
         const user = userFound[0];
 
+        console.log('user', user)
+
         user.log.push({
             description: description,
             duration: Number(duration),
