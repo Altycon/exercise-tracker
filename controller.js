@@ -1,4 +1,4 @@
-
+const { validationResult } = require('express-validator');
 const User = require('./model');
 
 require('dotenv').config();
@@ -37,6 +37,11 @@ module.exports.getUsers = async function(request,response){
 };
 
 module.exports.addUser = async function(request,response){
+
+    const validationErrors = validationResult(request);
+    if(!validationErrors.isEmpty()){
+        return response.status(500).send(validationErrors)
+    }
 
     const { username } = request.body;
 
@@ -219,5 +224,27 @@ module.exports.getUserLogs = async function(request,response){
         console.log(error);
 
         response.status(500).send('Error occured get user logs. Please try again.')
+    }
+};
+
+module.exports.deleteUser = async function(request,response){
+
+    const { _id } = request.params;
+    
+    try{
+        const userExists = await User.exists({ _id });
+        
+        if(!userExists){
+            return response.send('No user exists to delete.')
+        }
+
+        const user = await User.find({ _id });
+        
+        await User.deleteOne({ _id });
+
+        response.send(`User ${user[0].username} with id: ${user[0]._id} has been deleted. Thank you playing...`)
+
+    }catch{
+        response.send('There was an error deleting user. Please try again.')
     }
 };
