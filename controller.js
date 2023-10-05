@@ -72,7 +72,7 @@ module.exports.addUser = async function(request,response){
 
     }catch(error){
         console.log(error);
-        
+
         response.status(500).json({
             status: 'Failed',
             messages: error.message,
@@ -127,7 +127,7 @@ module.exports.addExercise = async function(request,response){
         response.json({
             username: user.username,
             description: description,
-            duration: duration,
+            duration: Number(duration),
             date: newExerciseDate,
             _id: user._id
         });
