@@ -71,7 +71,8 @@ module.exports.addUser = async function(request,response){
         });
 
     }catch(error){
-
+        console.log(error);
+        
         response.status(500).json({
             status: 'Failed',
             messages: error.message,

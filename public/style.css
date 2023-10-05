@@ -79,9 +79,18 @@ body {
     border: 4px solid hsl(219 71% 45%);
     box-shadow: 2px 2px 5px hsl(0 0% 0% / 0.8);
     text-shadow: 1px 1px 1px hsl(0 0% 0% / 0.5);
+    transition: border-radius 300ms ease,
+    background-color 400ms ease,
+    scale 100ms ease;
 }
 
-
+.create-user-form-btn:hover{
+    background-color: black;
+    border-radius: 10px;
+}
+.create-user-form-btn:active{
+    scale: 1.1;
+}
 .tracker-wrapper {
     display: grid;
     grid-template-columns: auto auto;
@@ -127,6 +136,18 @@ body {
     border: 1px solid white;
     border-radius: 50%;
     cursor: pointer;
+    transition: background-color 300ms ease,
+    color 300ms ease,
+    border 300ms ease,
+    scale 100ms ease;
+}
+.close-create-user-form-window-btn:hover{
+    background-color: var(--fc-primary);
+    color: var(--bc-primary);
+    border: 1px solid black;
+}
+.close-create-user-form-window-btn:active{
+    scale: 1.1;
 }
 .create-user-form-window .content{
     opacity: 0;
