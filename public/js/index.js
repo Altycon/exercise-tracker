@@ -27,7 +27,7 @@ function submitCreateUserForm(event){
     
     event.target.submit();
     event.target.reset();
-}
+};
 
 function submitExerciseForm(event){
     event.preventDefault();

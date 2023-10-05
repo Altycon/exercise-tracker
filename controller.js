@@ -24,47 +24,59 @@ module.exports.getUsers = async function(request,response){
         });
 
         if(users.length === 0){
-            return response.status(500).send('There are no users to show at this time. Become one!')
+            return response.status(500).json({
+                status: 'Nothing changed',
+                message: 'There are no users to show at this time.',
+                instructions: 'Become one..'
+            });
         }
 
         response.json(users);
 
     }catch(error){
-        console.log(error);
 
-        response.status(500).send('Error occured getting all users. Please try again.');
+        response.status(500).json({
+            status: 'Failed',
+            message: 'Error occured trying to retrieve users data.',
+            instructions: 'Maybe try again?...'
+        });
     }
 };
 
 module.exports.addUser = async function(request,response){
 
     const validationErrors = validationResult(request);
+
     if(!validationErrors.isEmpty()){
-        return response.status(500).send(validationErrors)
+
+        return response.status(500).json({
+            status: 'Failed',
+            errors: validationErrors
+        });
     }
 
     const { username } = request.body;
 
     try{
 
-        const _id = (Math.floor(Math.random() * 10000)).toString();
-
         const newUser = new User({
             username: username,
-            _id: _id
         });
 
         const user = await newUser.save();
 
         response.json({
             username: user.username,
-            _id: +_id
+            _id: user._id
         });
 
     }catch(error){
-        console.log(error);
 
-        response.status(500).send('Error occured creating user. Please try again');
+        response.status(500).json({
+            status: 'Failed',
+            messages: error.message,
+            instructions: 'Please try again.'
+        });
     }
 };
 
@@ -99,8 +111,6 @@ module.exports.addExercise = async function(request,response){
 
         }
 
-        const exerciseId = Math.floor(Math.random() * 1000);
-
         const user = userFound[0];
 
         console.log('user', user)
@@ -109,7 +119,6 @@ module.exports.addExercise = async function(request,response){
             description: description,
             duration: Number(duration),
             date: newExerciseDate,
-            _id: exerciseId
         });
         
         await user.save();
@@ -119,13 +128,16 @@ module.exports.addExercise = async function(request,response){
             description: description,
             duration: duration,
             date: newExerciseDate,
-            _id: _id
+            _id: user._id
         });
 
     }catch(error){
 
-        response.status(500).send('Error occured adding exercise. Please try again.');
-
+        response.status(500).json({
+            status: 'Failed',
+            message: 'Error occured adding exercise to database.',
+            instructions: 'Please try again.'
+        });
     }
 };
 
@@ -136,10 +148,13 @@ function parseUserLogData(userLog,options){
     if(userLog.length > 0){
 
         const sorted = userLog.sort( (a,b)=> {
+
             const aDate = new Date(a.date);
+
             const aTime = aDate.getTime();
             
             const bDate = new Date(b.date);
+
             const bTime = bDate.getTime();
     
             return aTime - bTime;
@@ -151,30 +166,38 @@ function parseUserLogData(userLog,options){
         let counter = 0;
 
         if(options.limit){
+
             limit = options.limit;
         }
 
         if(options.from){
+
             const fromDate = new Date(options.from);
+
             const from = fromDate.toDateString();
 
             sorted.forEach( (log,index) => {
 
                     if(log.date.includes(from)){
+
                         start = index;
                     }
             });
         }
+
         if(options.to){
+
             const toDate = new Date(options.to);
+
             const to = toDate.toDateString();
 
             sorted.forEach( (log,index) => {
 
                     if(log.date.includes(to)){
-                        end = index+1;
-                    }
-            });
+
+                        end = index + 1;    // <-- I think this '+ 1' could be removed by making the next
+                    }                       // for loop belows' end: i <= end but...
+            });                             // I didn't change anything because this worked for freeCodeCamp testing
         }
 
         for(let i = start; i < end; i++){
@@ -186,7 +209,9 @@ function parseUserLogData(userLog,options){
             });
 
             if(options.limit){
+
                 counter++;
+
                 if(counter >= limit) break;
             }
         }
@@ -225,9 +250,12 @@ module.exports.getUserLogs = async function(request,response){
         });
 
     }catch(error){
-        console.log(error);
-
-        response.status(500).send('Error occured get user logs. Please try again.')
+        
+        response.status(500).json({
+            status: 'Failed',
+            message: 'Error occured get log data.',
+            instructions: 'Please try again'
+        });
     }
 };
 
@@ -246,9 +274,16 @@ module.exports.deleteUser = async function(request,response){
         
         await User.deleteOne({ _id });
 
-        response.send(`User ${user[0].username} with id: ${user[0]._id} has been deleted. Thank you playing...`)
+        response.json({
+            status: 'Success',
+            message: `User "${user[0].username}" with ID "${user[0]._id}" has been deleted. Thank you for playing...`
+        });
 
     }catch{
-        response.send('There was an error deleting user. Please try again.')
+        response.status(500).json({
+            status: 'Failed',
+            message: 'Error occured trying to delete user',
+            instructions: 'Please try again'
+        });
     }
 };
